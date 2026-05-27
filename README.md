@@ -24,7 +24,13 @@ The project follows a complete **Data Engineering + AI workflow**, including:
 
 ## 🧾 Passenger Manifest Interface
 
-![Passenger Manifest](img1.png)
+
+
+<img 
+    src="img1.png" 
+    alt="Passenger Manifest Interface" 
+    width="100%" 
+/>
 
 ---
 
