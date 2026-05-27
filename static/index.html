@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titanic Survival Predictor & Analytics</title>
+    
+    <!-- Google Fonts for premium appearance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for high-fidelity icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link to the CSS stylesheet served by FastAPI -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Floating background decorative elements representing deep ocean bubbles -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-logo">
+                <i class="fa-solid fa-ship ship-icon"></i>
+            </div>
+            <h1 class="main-title">THE TITANIC VOYAGE</h1>
+            <p class="subtitle">Survival Probability & Statistical Predictor</p>
+            <div class="divider">
+                <span class="divider-line"></span>
+                <i class="fa-regular fa-compass compass-icon"></i>
+                <span class="divider-line"></span>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- Predictor Card -->
+            <section class="predictor-card card-glow" id="predictor-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-user-pen header-section-icon"></i>Passenger Manifest</h2>
+                    <p class="card-subtitle">Configure the passenger's details based on the historic 1912 voyage records.</p>
+                </div>
+
+                <form id="prediction-form" class="manifest-form">
+                    <!-- Hidden Form Inputs synchronized with custom selectors -->
+                    <input type="hidden" name="pclass" id="input-pclass" value="3">
+                    <input type="hidden" name="sex" id="input-sex" value="male">
+                    <input type="hidden" name="embarked" id="input-embarked" value="S">
+
+                    <!-- Grid Layout for input parameters -->
+                    <div class="form-grid">
+                        
+                        <!-- 1. Passenger Class (Pclass) Selector - Custom Cards -->
+                        <div class="form-group full-width">
+                            <label class="group-label">Ticket Class (Passenger Class)</label>
+                            <div class="class-cards">
+                                <div class="class-card" data-class="1">
+                                    <div class="class-badge gold">1st</div>
+                                    <i class="fa-solid fa-crown class-icon"></i>
+                                    <h3>First Class</h3>
+                                    <p>Luxury suites, Upper deck. Premium privileges.</p>
+                                </div>
+                                <div class="class-card" data-class="2">
+                                    <div class="class-badge silver">2nd</div>
+                                    <i class="fa-solid fa-gem class-icon"></i>
+                                    <h3>Second Class</h3>
+                                    <p>Cabins, Middle deck. Professional & tourists.</p>
+                                </div>
+                                <div class="class-card active" data-class="3">
+                                    <div class="class-badge bronze">3rd</div>
+                                    <i class="fa-solid fa-users class-icon"></i>
+                                    <h3>Third Class</h3>
+                                    <p>Steerage, Lower deck. Immigrants & crew support.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Gender Selection (Sex) - Custom Toggle Cards -->
+                        <div class="form-group md-half">
+                            <label class="group-label">Gender</label>
+                            <div class="gender-toggle">
+                                <div class="gender-card active" data-gender="male">
+                                    <i class="fa-solid fa-mars gender-icon male"></i>
+                                    <span>Male</span>
+                                </div>
+                                <div class="gender-card" data-gender="female">
+                                    <i class="fa-solid fa-venus gender-icon female"></i>
+                                    <span>Female</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Age Input - Sleek Stepper -->
+                        <div class="form-group md-half">
+                            <label class="group-label" for="input-age">Age (Years)</label>
+                            <div class="stepper-input">
+                                <button type="button" class="step-btn" id="btn-age-minus"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" id="input-age" name="age" min="0" max="100" step="1" value="28" required>
+                                <button type="button" class="step-btn" id="btn-age-plus"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <span class="input-helper">Historical average passenger age was approx. 28.</span>
+                        </div>
+
+                        <!-- 4. Sibling/Spouse (SibSp) - Numeric Stepper -->
+                        <div class="form-group sm-half">
+                            <label class="group-label" for="input-sibsp">Siblings / Spouses Aboard</label>
+                            <div class="stepper-input">
+                                <button type="button" class="step-btn" id="btn-sibsp-minus"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" id="input-sibsp" name="sibsp" min="0" max="10" value="0" required>
+                                <button type="button" class="step-btn" id="btn-sibsp-plus"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <span class="input-helper">Brothers, sisters, spouses.</span>
+                        </div>
+
+                        <!-- 5. Parent/Child (Parch) - Numeric Stepper -->
+                        <div class="form-group sm-half">
+                            <label class="group-label" for="input-parch">Parents / Children Aboard</label>
+                            <div class="stepper-input">
+                                <button type="button" class="step-btn" id="btn-parch-minus"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" id="input-parch" name="parch" min="0" max="10" value="0" required>
+                                <button type="button" class="step-btn" id="btn-parch-plus"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <span class="input-helper">Parents, children, infants.</span>
+                        </div>
+
+                        <!-- 6. Ticket Fare (£) - Sleek Slider -->
+                        <div class="form-group full-width">
+                            <div class="fare-label-container">
+                                <label class="group-label">Ticket Fare (£)</label>
+                                <span class="fare-badge" id="fare-value-display">£15.00</span>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="input-fare" name="fare" min="0" max="300" step="0.5" value="15">
+                                <div class="slider-ticks">
+                                    <span>£0</span>
+                                    <span>£50</span>
+                                    <span>£100</span>
+                                    <span>£150</span>
+                                    <span>£200</span>
+                                    <span>£250</span>
+                                    <span>£300+</span>
+                                </div>
+                            </div>
+                            <div class="fare-desc" id="fare-tier-desc">
+                                <i class="fa-solid fa-tags"></i> Fare Tier: <strong id="fare-tier-name">Standard Economy (Low)</strong>
+                            </div>
+                        </div>
+
+                        <!-- 7. Port of Embarkation (Embarked) - Interactive Cards -->
+                        <div class="form-group full-width">
+                            <label class="group-label">Port of Embarkation</label>
+                            <div class="port-cards">
+                                <div class="port-card active" data-port="S">
+                                    <div class="port-code">S</div>
+                                    <h3>Southampton</h3>
+                                    <p>United Kingdom (Main Port)</p>
+                                </div>
+                                <div class="port-card" data-port="C">
+                                    <div class="port-code">C</div>
+                                    <h3>Cherbourg</h3>
+                                    <p>France (Continental Passengers)</p>
+                                </div>
+                                <div class="port-card" data-port="Q">
+                                    <div class="port-code">Q</div>
+                                    <h3>Queenstown</h3>
+                                    <p>Ireland (Irish Immigrants)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn" id="btn-predict">
+                            <span class="btn-text">Run Survival Simulation</span>
+                            <i class="fa-solid fa-anchor anchor-btn-icon"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section Dashboard (Hidden by default, shown via active class) -->
+            <section class="results-card card-glow hidden" id="results-section">
+                <div class="results-container">
+                    
+                    <div class="results-header">
+                        <h2>Simulation Outcome</h2>
+                        <p>Our machine learning model has evaluated the manifest variables against historical records.</p>
+                    </div>
+
+                    <!-- Primary visual gauge & score -->
+                    <div class="results-core">
+                        <div class="gauge-wrapper">
+                            <svg class="progress-ring" width="220" height="220">
+                                <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="transparent" r="90" cx="110" cy="110"/>
+                                <circle class="progress-ring__circle" stroke="#10b981" stroke-width="12" stroke-linecap="round" fill="transparent" r="90" cx="110" cy="110"/>
+                            </svg>
+                            <div class="gauge-overlay">
+                                <span class="probability-percentage" id="probability-text">0.00%</span>
+                                <span class="probability-label">SURVIVAL CHANCE</span>
+                            </div>
+                        </div>
+
+                        <div class="outcome-badge-container">
+                            <span class="outcome-badge" id="outcome-badge-text">Passenger Survived</span>
+                        </div>
+                    </div>
+
+                    <!-- Descriptive breakdown of why this occurred -->
+                    <div class="verdict-card">
+                        <div class="verdict-icon-box" id="verdict-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="verdict-content">
+                            <h3 id="verdict-title">Survival Favorable</h3>
+                            <p id="verdict-description">The model predicts that this passenger would likely be evacuated successfully. This outcome was strongly driven by historical boarding protocols.</p>
+                        </div>
+                    </div>
+
+                    <!-- Analytics stats showing highlights -->
+                    <div class="insights-grid">
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fa-solid fa-venus-mars"></i></div>
+                            <div class="insight-label">Gender Protocol</div>
+                            <div class="insight-value" id="insight-gender">Favorable (Female)</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fa-solid fa-ranking-star"></i></div>
+                            <div class="insight-label">Class Privilege</div>
+                            <div class="insight-value" id="insight-class">High (1st Class)</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fa-solid fa-children"></i></div>
+                            <div class="insight-label">Age Category</div>
+                            <div class="insight-value" id="insight-age">Adult (28 yrs)</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon"><i class="fa-solid fa-people-group"></i></div>
+                            <div class="insight-label">Family Size</div>
+                            <div class="insight-value" id="insight-family">Single (Alone)</div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Action -->
+                    <div class="results-actions">
+                        <button type="button" class="secondary-btn" id="btn-recalculate">
+                            <i class="fa-solid fa-rotate-left"></i> Modify Manifest
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Designed and Built for Titanic Historical Analysis &copy; 2026. Powered by FastAPI & scikit-learn.</p>
+        </footer>
+    </div>
+
+    <!-- Script to handle all client interaction and API integration -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
